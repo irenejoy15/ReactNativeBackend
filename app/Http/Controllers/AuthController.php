@@ -38,4 +38,32 @@ class AuthController extends Controller
             ], 401);
         endif;
     }
+
+    public function register(Request $request)
+    {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $hash_password = Hash::make($password);
+        $checkEmail = User::where('email', $email)->first();
+        if($checkEmail){
+            return Response::json([
+                'msg'=>'Email already exists',
+                'errors' => 'Email already exists' ,
+                'status' => false
+            ], 401);
+        }
+        
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $hash_password
+        ]);
+
+        return Response::json([
+            'msg'=>'User created successfully',
+            'user'=>$user,
+            'status' => true
+        ], 200);
+    }
 }
