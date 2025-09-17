@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Resources\ProductionResource;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderDetail;
 
@@ -60,6 +61,11 @@ class ProductController extends Controller
             ]);
         }
         return response()->json(['message' => 'Order saved successfully', 'orderId' => $orderId], 201);
+    }
 
+    public function user_order($userId)
+    {
+        $orders = Order::where('userId', $userId)->get();
+        return OrderResource::collection($orders);
     }
 }
