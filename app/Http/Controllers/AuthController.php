@@ -66,4 +66,12 @@ class AuthController extends Controller
             'status' => true
         ], 200);
     }
+
+    public function getCurrentUser(){
+        $user = auth('sanctum')->user();
+        return Response::json([
+            'user'=>$user
+        ], 200);
+    }
+
 }
